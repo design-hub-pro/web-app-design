@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrailSense - Live Tracking</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background: #1A1A1A;
+    }
+    .tracking-map {
+      position: relative;
+      height: 380px;
+      background: #2A2A2A;
+    }
+    .tracking-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+    .map-controls {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .map-control-btn {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.95);
+      border: none;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--text-primary);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+    .live-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--alert-red);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .live-badge i {
+      font-size: 8px;
+    }
+    .path-legend {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      padding: 10px 14px;
+      border-radius: 10px;
+      display: flex;
+      gap: 16px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: white;
+    }
+    .legend-line {
+      width: 20px;
+      height: 3px;
+      border-radius: 2px;
+    }
+    .legend-official {
+      background: #4CAF50;
+    }
+    .legend-actual {
+      background: #FF9800;
+    }
+    .tracking-panel {
+      background: white;
+      border-radius: 24px 24px 0 0;
+      margin-top: -20px;
+      position: relative;
+      z-index: 10;
+      padding: 20px 16px;
+      min-height: 400px;
+    }
+    .panel-handle {
+      width: 36px;
+      height: 4px;
+      background: #DDD;
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+    .live-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .live-stat {
+      text-align: center;
+    }
+    .live-stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .live-stat-unit {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+    .live-stat-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+    .cadence-graph {
+      background: var(--bg-light);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .cadence-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .cadence-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .cadence-current {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary-green);
+    }
+    .cadence-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 60px;
+    }
+    .cadence-bar {
+      flex: 1;
+      background: var(--accent-green);
+      border-radius: 3px 3px 0 0;
+      transition: height 0.3s;
+    }
+    .cadence-bar.low {
+      background: var(--warning-orange);
+    }
+    .deviation-alert {
+      background: #FFF8E1;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .deviation-icon {
+      width: 40px;
+      height: 40px;
+      background: #FFE082;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #E65100;
+      font-size: 18px;
+    }
+    .deviation-text {
+      flex: 1;
+    }
+    .deviation-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #E65100;
+    }
+    .deviation-desc {
+      font-size: 12px;
+      color: #8D6E63;
+    }
+    .stop-btn {
+      background: var(--alert-red);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(229,57,53,0.3);
+    }
+  </style>
+</head>
+<body>
+  <!-- Status Bar -->
+  <div class="status-bar" style="background: transparent; position: absolute; z-index: 100; width: 100%;">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <i class="fas fa-signal"></i>
+      <i class="fas fa-wifi"></i>
+      <i class="fas fa-battery-full"></i>
+    </div>
+  </div>
+
+  <!-- Tracking Map -->
+  <div class="tracking-map">
+    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=500&fit=crop" alt="Trail Map" style="filter: brightness(0.8) contrast(1.1);">
+
+    <div class="live-badge">
+      <i class="fas fa-circle"></i>
+      RECORDING
+    </div>
+
+    <div class="map-controls">
+      <button class="map-control-btn">
+        <i class="fas fa-location-crosshairs"></i>
+      </button>
+      <button class="map-control-btn">
+        <i class="fas fa-layer-group"></i>
+      </button>
+    </div>
+
+    <div class="path-legend">
+      <div class="legend-item">
+        <div class="legend-line legend-official"></div>
+        <span>Official</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-line legend-actual"></div>
+        <span>Actual</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tracking Panel -->
+  <div class="tracking-panel">
+    <div class="panel-handle"></div>
+
+    <!-- Live Stats -->
+    <div class="live-stats">
+      <div class="live-stat">
+        <div class="live-stat-value">1.4<span class="live-stat-unit">mi</span></div>
+        <div class="live-stat-label">Distance</div>
+      </div>
+      <div class="live-stat">
+        <div class="live-stat-value">47<span class="live-stat-unit">min</span></div>
+        <div class="live-stat-label">Duration</div>
+      </div>
+      <div class="live-stat">
+        <div class="live-stat-value">96<span class="live-stat-unit">%</span></div>
+        <div class="live-stat-label">On Trail</div>
+      </div>
+    </div>
+
+    <!-- Cadence Graph -->
+    <div class="cadence-graph">
+      <div class="cadence-header">
+        <span class="cadence-title">Step Cadence (SPM)</span>
+        <span class="cadence-current">118 spm</span>
+      </div>
+      <div class="cadence-bars">
+        <div class="cadence-bar" style="height: 70%;"></div>
+        <div class="cadence-bar" style="height: 75%;"></div>
+        <div class="cadence-bar" style="height: 72%;"></div>
+        <div class="cadence-bar" style="height: 80%;"></div>
+        <div class="cadence-bar" style="height: 85%;"></div>
+        <div class="cadence-bar" style="height: 78%;"></div>
+        <div class="cadence-bar low" style="height: 45%;"></div>
+        <div class="cadence-bar low" style="height: 40%;"></div>
+        <div class="cadence-bar" style="height: 60%;"></div>
+        <div class="cadence-bar" style="height: 75%;"></div>
+        <div class="cadence-bar" style="height: 82%;"></div>
+        <div class="cadence-bar" style="height: 88%;"></div>
+        <div class="cadence-bar" style="height: 85%;"></div>
+        <div class="cadence-bar" style="height: 90%;"></div>
+        <div class="cadence-bar" style="height: 87%;"></div>
+      </div>
+    </div>
+
+    <!-- Deviation Alert -->
+    <div class="deviation-alert">
+      <div class="deviation-icon">
+        <i class="fas fa-route"></i>
+      </div>
+      <div class="deviation-text">
+        <div class="deviation-title">Minor Path Deviation Detected</div>
+        <div class="deviation-desc">8m off trail at 0.9mi marker - recording data</div>
+      </div>
+    </div>
+
+    <!-- Stop Button -->
+    <button class="stop-btn">
+      <i class="fas fa-stop"></i>
+      End Hike Session
+    </button>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <a href="#" class="tab-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="#" class="tab-item active">
+      <i class="fas fa-location-arrow"></i>
+      <span>Track</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Analysis</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-brain"></i>
+      <span>Insights</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-clock-rotate-left"></i>
+      <span>History</span>
+    </a>
+  </div>
+</body>
+</html>

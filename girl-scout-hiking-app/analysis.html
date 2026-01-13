@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrailSense - Trail Analysis</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .analysis-header {
+      background: linear-gradient(135deg, var(--primary-green) 0%, var(--forest-dark) 100%);
+      color: white;
+      padding: 20px;
+      padding-top: 10px;
+    }
+    .trail-selector {
+      background: rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+    .trail-selector-text {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .trail-selector-sub {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    .comparison-map {
+      height: 200px;
+      margin: 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    .comparison-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .deviation-markers {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    .deviation-marker {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: var(--warning-orange);
+      border: 3px solid white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+    .stat-box {
+      flex: 1;
+      background: white;
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+    .stat-box-value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .stat-box-value.green { color: var(--primary-green); }
+    .stat-box-value.orange { color: var(--warning-orange); }
+    .stat-box-value.red { color: var(--alert-red); }
+    .stat-box-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .deviation-list {
+      background: white;
+      margin: 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+    .deviation-list-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid #F0F0F0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .deviation-list-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .deviation-count {
+      background: var(--warning-orange);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+    .deviation-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid #F5F5F5;
+      display: flex;
+      gap: 12px;
+    }
+    .deviation-item:last-child {
+      border-bottom: none;
+    }
+    .deviation-num {
+      width: 28px;
+      height: 28px;
+      background: #FFF3E0;
+      color: var(--warning-orange);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .deviation-info {
+      flex: 1;
+    }
+    .deviation-location {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .deviation-details {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .deviation-severity {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .severity-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .severity-low {
+      background: #E8F5E9;
+      color: var(--primary-green);
+    }
+    .severity-medium {
+      background: #FFF3E0;
+      color: #E65100;
+    }
+    .severity-high {
+      background: #FFEBEE;
+      color: var(--alert-red);
+    }
+    .cadence-analysis {
+      background: white;
+      margin: 16px;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--card-shadow);
+    }
+    .cadence-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .cadence-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .cadence-chart {
+      height: 100px;
+      background: linear-gradient(180deg, var(--light-green) 0%, transparent 100%);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cadence-line {
+      position: absolute;
+      top: 30%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-green);
+      opacity: 0.3;
+    }
+    .cadence-baseline {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #CCC;
+      border-style: dashed;
+    }
+    .anomaly-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background: rgba(255,152,0,0.2);
+      border-left: 2px solid var(--warning-orange);
+      border-right: 2px solid var(--warning-orange);
+    }
+    .anomaly-label {
+      position: absolute;
+      top: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--warning-orange);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <i class="fas fa-signal"></i>
+      <i class="fas fa-wifi"></i>
+      <i class="fas fa-battery-full"></i>
+    </div>
+  </div>
+
+  <!-- Analysis Header -->
+  <div class="analysis-header">
+    <h1 style="font-size: 20px; font-weight: 700;">Trail Analysis</h1>
+    <div class="trail-selector">
+      <div>
+        <div class="trail-selector-text">Oakwood Nature Trail</div>
+        <div class="trail-selector-sub">Jan 12, 2026 • 3.2 miles</div>
+      </div>
+      <i class="fas fa-chevron-down" style="opacity: 0.7;"></i>
+    </div>
+  </div>
+
+  <!-- App Container -->
+  <div class="app-container">
+    <!-- Comparison Map -->
+    <div class="comparison-map">
+      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=300&fit=crop" alt="Trail Comparison">
+      <div class="deviation-markers">
+        <div class="deviation-marker" style="top: 30%; left: 25%;">1</div>
+        <div class="deviation-marker" style="top: 55%; left: 48%;">2</div>
+        <div class="deviation-marker" style="top: 40%; left: 72%;">3</div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-box-value green">94%</div>
+        <div class="stat-box-label">Path Match</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-value orange">3</div>
+        <div class="stat-box-label">Deviations</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-value red">47m</div>
+        <div class="stat-box-label">Max Offset</div>
+      </div>
+    </div>
+
+    <!-- Deviation List -->
+    <div class="deviation-list">
+      <div class="deviation-list-header">
+        <span class="deviation-list-title">Deviation Points</span>
+        <span class="deviation-count">3 detected</span>
+      </div>
+      <div class="deviation-item">
+        <div class="deviation-num">1</div>
+        <div class="deviation-info">
+          <div class="deviation-location">Mile Marker 0.8</div>
+          <div class="deviation-details">12m left of trail • Creek crossing area</div>
+        </div>
+        <div class="deviation-severity">
+          <span class="severity-badge severity-low">Low</span>
+          <span style="font-size: 11px; color: var(--text-secondary);">8 hikers</span>
+        </div>
+      </div>
+      <div class="deviation-item">
+        <div class="deviation-num">2</div>
+        <div class="deviation-info">
+          <div class="deviation-location">Mile Marker 1.6</div>
+          <div class="deviation-details">47m right of trail • Steep section</div>
+        </div>
+        <div class="deviation-severity">
+          <span class="severity-badge severity-high">High</span>
+          <span style="font-size: 11px; color: var(--text-secondary);">23 hikers</span>
+        </div>
+      </div>
+      <div class="deviation-item">
+        <div class="deviation-num">3</div>
+        <div class="deviation-info">
+          <div class="deviation-location">Mile Marker 2.4</div>
+          <div class="deviation-details">18m left of trail • Rocky terrain</div>
+        </div>
+        <div class="deviation-severity">
+          <span class="severity-badge severity-medium">Medium</span>
+          <span style="font-size: 11px; color: var(--text-secondary);">15 hikers</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cadence Analysis -->
+    <div class="cadence-analysis">
+      <div class="cadence-header">
+        <span class="cadence-title">Cadence Anomalies</span>
+        <span style="font-size: 13px; color: var(--warning-orange); font-weight: 600;">2 zones</span>
+      </div>
+      <div class="cadence-chart">
+        <div class="cadence-baseline"></div>
+        <div class="anomaly-zone" style="left: 20%; width: 15%;">
+          <span class="anomaly-label" style="left: 4px;">-23% pace</span>
+        </div>
+        <div class="anomaly-zone" style="left: 65%; width: 12%;">
+          <span class="anomaly-label" style="left: 4px;">-18% pace</span>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--text-secondary);">
+        <span>Start</span>
+        <span>1.0 mi</span>
+        <span>2.0 mi</span>
+        <span>3.2 mi</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <a href="#" class="tab-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-location-arrow"></i>
+      <span>Track</span>
+    </a>
+    <a href="#" class="tab-item active">
+      <i class="fas fa-chart-line"></i>
+      <span>Analysis</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-brain"></i>
+      <span>Insights</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-clock-rotate-left"></i>
+      <span>History</span>
+    </a>
+  </div>
+</body>
+</html>
