@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components - BuildSmart</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="css/shared.css" rel="stylesheet">
+  <style>
+    .components-page {
+      padding-top: 100px;
+      min-height: 100vh;
+      background: #f8fafc;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 48px 0;
+      margin-bottom: 40px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-text h1 {
+      color: white;
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .header-text p {
+      color: #94a3b8;
+      font-size: 16px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 12px;
+      padding: 4px;
+      width: 400px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      padding: 12px 16px;
+      font-size: 15px;
+      outline: none;
+      border-radius: 8px;
+    }
+
+    .search-box button {
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-chip {
+      padding: 10px 18px;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: var(--gray);
+    }
+
+    .filter-chip:hover,
+    .filter-chip.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .filter-chip.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .sort-dropdown {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sort-dropdown label {
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .sort-dropdown select {
+      padding: 10px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      background: white;
+    }
+
+    /* Components Grid */
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .component-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .component-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .component-image {
+      height: 200px;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .component-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .component-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .tag-best { background: #10b981; color: white; }
+    .tag-value { background: #f59e0b; color: white; }
+    .tag-new { background: #6366f1; color: white; }
+    .tag-refurbished { background: #06b6d4; color: white; }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .wishlist-btn:hover {
+      transform: scale(1.1);
+      color: #ef4444;
+    }
+
+    .component-content {
+      padding: 20px;
+    }
+
+    .component-category {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .component-name {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .component-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .spec-tag {
+      padding: 4px 10px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--gray);
+    }
+
+    .component-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .price-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .current-price {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .original-price {
+      font-size: 13px;
+      color: var(--gray);
+      text-decoration: line-through;
+    }
+
+    .add-btn {
+      width: 44px;
+      height: 44px;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .add-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Comparison Banner */
+    .comparison-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--dark);
+      padding: 16px 24px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+    }
+
+    .comparison-items {
+      display: flex;
+      gap: 8px;
+    }
+
+    .comparison-item {
+      width: 48px;
+      height: 48px;
+      background: #334155;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .comparison-text {
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .comparison-text span {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .compare-btn {
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Rating Stars */
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .stars {
+      color: #f59e0b;
+      font-size: 12px;
+    }
+
+    .rating-count {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    @media (max-width: 1200px) {
+      .components-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .components-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .filter-section {
+        justify-content: center;
+      }
+
+      .sort-dropdown {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-content">
+      <a href="#" class="nav-logo">
+        <i class="fas fa-microchip"></i>
+        BuildSmart
+      </a>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">PC Builder</a>
+        <a href="#" class="active">Components</a>
+        <a href="#">Recycle Hub</a>
+        <a href="#">Resources</a>
+      </div>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-secondary" style="padding: 10px 20px;">Sign In</a>
+        <a href="#" class="btn btn-primary" style="padding: 10px 20px;">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="components-page">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container">
+        <div class="header-content">
+          <div class="header-text">
+            <h1>Component Marketplace</h1>
+            <p>Compare prices across retailers and find the best deals</p>
+          </div>
+          <div class="search-box">
+            <input type="text" placeholder="Search components...">
+            <button><i class="fas fa-search"></i> Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Filter Section -->
+      <div class="filter-section">
+        <div class="filter-group">
+          <button class="filter-chip active">All</button>
+          <button class="filter-chip">GPUs</button>
+          <button class="filter-chip">CPUs</button>
+          <button class="filter-chip">RAM</button>
+          <button class="filter-chip">Storage</button>
+          <button class="filter-chip">Motherboards</button>
+          <button class="filter-chip">PSUs</button>
+        </div>
+        <div class="sort-dropdown">
+          <label>Sort by:</label>
+          <select>
+            <option>Best Value</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+            <option>Highest Rated</option>
+            <option>Newest</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Components Grid -->
+      <div class="components-grid">
+        <!-- GPU Card -->
+        <div class="component-card">
+          <div class="component-image">
+            <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600" alt="RTX 4090">
+            <span class="component-tag tag-best">Best Pick</span>
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="component-content">
+            <span class="component-category">Graphics Card</span>
+            <h3 class="component-name">NVIDIA GeForce RTX 4090 Founders Edition</h3>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span>
+              <span class="rating-count">(2,847 reviews)</span>
+            </div>
+            <div class="component-specs">
+              <span class="spec-tag">24GB GDDR6X</span>
+              <span class="spec-tag">450W TDP</span>
+              <span class="spec-tag">DLSS 3</span>
+            </div>
+            <div class="component-footer">
+              <div class="price-section">
+                <span class="current-price">$1,599</span>
+                <span class="original-price">$1,799</span>
+              </div>
+              <button class="add-btn"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CPU Card -->
+        <div class="component-card">
+          <div class="component-image">
+            <img src="https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=600" alt="AMD Ryzen">
+            <span class="component-tag tag-value">Best Value</span>
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="component-content">
+            <span class="component-category">Processor</span>
+            <h3 class="component-name">AMD Ryzen 9 7950X 16-Core Processor</h3>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+              <span class="rating-count">(1,523 reviews)</span>
+            </div>
+            <div class="component-specs">
+              <span class="spec-tag">16 Cores</span>
+              <span class="spec-tag">5.7GHz</span>
+              <span class="spec-tag">170W TDP</span>
+            </div>
+            <div class="component-footer">
+              <div class="price-section">
+                <span class="current-price">$549</span>
+                <span class="original-price">$699</span>
+              </div>
+              <button class="add-btn"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RAM Card -->
+        <div class="component-card">
+          <div class="component-image">
+            <img src="https://images.unsplash.com/photo-1562976540-1502c2145186?w=600" alt="DDR5 RAM">
+            <span class="component-tag tag-new">New</span>
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="component-content">
+            <span class="component-category">Memory</span>
+            <h3 class="component-name">G.Skill Trident Z5 RGB 64GB DDR5-5600</h3>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span>
+              <span class="rating-count">(892 reviews)</span>
+            </div>
+            <div class="component-specs">
+              <span class="spec-tag">64GB (2x32)</span>
+              <span class="spec-tag">DDR5-5600</span>
+              <span class="spec-tag">CL36</span>
+            </div>
+            <div class="component-footer">
+              <div class="price-section">
+                <span class="current-price">$189</span>
+                <span class="original-price">$249</span>
+              </div>
+              <button class="add-btn"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Refurbished GPU -->
+        <div class="component-card">
+          <div class="component-image">
+            <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600" alt="RTX 3090">
+            <span class="component-tag tag-refurbished">Refurbished</span>
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="component-content">
+            <span class="component-category">Graphics Card</span>
+            <h3 class="component-name">NVIDIA GeForce RTX 3090 Ti (Certified)</h3>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span>
+              <span class="rating-count">(156 reviews)</span>
+            </div>
+            <div class="component-specs">
+              <span class="spec-tag">24GB GDDR6X</span>
+              <span class="spec-tag">1-Year Warranty</span>
+              <span class="spec-tag">Tested</span>
+            </div>
+            <div class="component-footer">
+              <div class="price-section">
+                <span class="current-price">$699</span>
+                <span class="original-price">$1,499</span>
+              </div>
+              <button class="add-btn"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Storage Card -->
+        <div class="component-card">
+          <div class="component-image">
+            <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600" alt="NVMe SSD">
+            <span class="component-tag tag-best">Best Pick</span>
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="component-content">
+            <span class="component-category">Storage</span>
+            <h3 class="component-name">Samsung 990 Pro 2TB NVMe Gen4 SSD</h3>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+              <span class="rating-count">(3,241 reviews)</span>
+            </div>
+            <div class="component-specs">
+              <span class="spec-tag">7,450 MB/s</span>
+              <span class="spec-tag">Gen4 NVMe</span>
+              <span class="spec-tag">2TB</span>
+            </div>
+            <div class="component-footer">
+              <div class="price-section">
+                <span class="current-price">$179</span>
+                <span class="original-price">$229</span>
+              </div>
+              <button class="add-btn"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Motherboard -->
+        <div class="component-card">
+          <div class="component-image">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600" alt="Motherboard">
+            <span class="component-tag tag-value">Best Value</span>
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+          </div>
+          <div class="component-content">
+            <span class="component-category">Motherboard</span>
+            <h3 class="component-name">ASUS ROG Crosshair X670E Hero</h3>
+            <div class="rating">
+              <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span>
+              <span class="rating-count">(678 reviews)</span>
+            </div>
+            <div class="component-specs">
+              <span class="spec-tag">AM5 Socket</span>
+              <span class="spec-tag">DDR5</span>
+              <span class="spec-tag">WiFi 6E</span>
+            </div>
+            <div class="component-footer">
+              <div class="price-section">
+                <span class="current-price">$629</span>
+                <span class="original-price">$699</span>
+              </div>
+              <button class="add-btn"><i class="fas fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Banner -->
+    <div class="comparison-banner">
+      <div class="comparison-items">
+        <div class="comparison-item"><i class="fas fa-tv"></i></div>
+        <div class="comparison-item"><i class="fas fa-microchip"></i></div>
+        <div class="comparison-item"><i class="fas fa-plus"></i></div>
+      </div>
+      <span class="comparison-text"><span>2 items</span> selected for comparison</span>
+      <button class="compare-btn">
+        <i class="fas fa-balance-scale"></i>
+        Compare Now
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top: 60px;">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <span>&copy; 2025 BuildSmart. All rights reserved.</span>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

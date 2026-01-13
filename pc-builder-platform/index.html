@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuildSmart - PC Builder Platform Prototype</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    /* Header */
+    .prototype-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 16px 32px;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .logo i {
+      color: #6366f1;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .prototype-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .prototype-badge i {
+      font-size: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Page Navigation */
+    .page-nav {
+      position: fixed;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .nav-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-dot:hover,
+    .nav-dot.active {
+      background: #6366f1;
+      transform: scale(1.2);
+    }
+
+    .nav-dot::after {
+      content: attr(data-label);
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1e293b;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .nav-dot:hover::after {
+      opacity: 1;
+      right: 28px;
+    }
+
+    /* Main Content */
+    .prototype-container {
+      padding-top: 80px;
+    }
+
+    /* Page Section */
+    .page-section {
+      padding: 40px 32px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .page-section:last-child {
+      border-bottom: none;
+    }
+
+    .page-label {
+      max-width: 1400px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .page-title {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .page-number {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .page-info h2 {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .page-info p {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .page-tags {
+      display: flex;
+      gap: 8px;
+    }
+
+    .page-tag {
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Frame Container */
+    .frame-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: #1e293b;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .browser-bar {
+      background: #0f172a;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .browser-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .browser-dot.red { background: #ef4444; }
+    .browser-dot.yellow { background: #f59e0b; }
+    .browser-dot.green { background: #10b981; }
+
+    .browser-url {
+      flex: 1;
+      background: #1e293b;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .browser-url i {
+      color: #10b981;
+    }
+
+    .page-frame {
+      width: 100%;
+      height: 900px;
+      border: none;
+      display: block;
+    }
+
+    /* Footer */
+    .prototype-footer {
+      padding: 60px 32px;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo i {
+      color: #6366f1;
+      margin-right: 12px;
+    }
+
+    .footer-text {
+      color: #64748b;
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .footer-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-bottom: 32px;
+    }
+
+    .footer-stat {
+      text-align: center;
+    }
+
+    .footer-stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: #6366f1;
+    }
+
+    .footer-stat-label {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .footer-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .footer-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+    }
+
+    .copyright {
+      margin-top: 48px;
+      color: #475569;
+      font-size: 13px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .page-nav {
+        display: none;
+      }
+
+      .page-frame {
+        height: 700px;
+      }
+
+      .footer-stats {
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .prototype-header {
+        padding: 12px 16px;
+      }
+
+      .page-section {
+        padding: 24px 16px;
+      }
+
+      .page-label {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .page-frame {
+        height: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="prototype-header">
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-microchip"></i>
+        <span>BuildSmart</span>
+      </div>
+      <div class="prototype-badge">
+        <i class="fas fa-circle"></i>
+        High-Fidelity Prototype • YC Demo Ready
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Navigation Dots -->
+  <nav class="page-nav">
+    <div class="nav-dot active" data-label="Home" onclick="scrollToPage(0)"></div>
+    <div class="nav-dot" data-label="PC Builder" onclick="scrollToPage(1)"></div>
+    <div class="nav-dot" data-label="Components" onclick="scrollToPage(2)"></div>
+    <div class="nav-dot" data-label="Recycle Hub" onclick="scrollToPage(3)"></div>
+    <div class="nav-dot" data-label="Resources" onclick="scrollToPage(4)"></div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="prototype-container">
+    <!-- Page 1: Home -->
+    <section class="page-section" id="page-0">
+      <div class="page-label">
+        <div class="page-title">
+          <div class="page-number">1</div>
+          <div class="page-info">
+            <h2>Landing Page</h2>
+            <p>Hero section, value proposition, and key features</p>
+          </div>
+        </div>
+        <div class="page-tags">
+          <span class="page-tag">Marketing</span>
+          <span class="page-tag">Conversion</span>
+          <span class="page-tag">Onboarding</span>
+        </div>
+      </div>
+      <div class="frame-container">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot red"></div>
+            <div class="browser-dot yellow"></div>
+            <div class="browser-dot green"></div>
+          </div>
+          <div class="browser-url">
+            <i class="fas fa-lock"></i>
+            buildsmart.io
+          </div>
+        </div>
+        <iframe src="home.html" class="page-frame"></iframe>
+      </div>
+    </section>
+
+    <!-- Page 2: Builder -->
+    <section class="page-section" id="page-1">
+      <div class="page-label">
+        <div class="page-title">
+          <div class="page-number">2</div>
+          <div class="page-info">
+            <h2>PC Builder Wizard</h2>
+            <p>Goal selection, budget configuration, AI recommendations</p>
+          </div>
+        </div>
+        <div class="page-tags">
+          <span class="page-tag">Core Feature</span>
+          <span class="page-tag">AI-Powered</span>
+          <span class="page-tag">Interactive</span>
+        </div>
+      </div>
+      <div class="frame-container">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot red"></div>
+            <div class="browser-dot yellow"></div>
+            <div class="browser-dot green"></div>
+          </div>
+          <div class="browser-url">
+            <i class="fas fa-lock"></i>
+            buildsmart.io/builder
+          </div>
+        </div>
+        <iframe src="builder.html" class="page-frame"></iframe>
+      </div>
+    </section>
+
+    <!-- Page 3: Components -->
+    <section class="page-section" id="page-2">
+      <div class="page-label">
+        <div class="page-title">
+          <div class="page-number">3</div>
+          <div class="page-info">
+            <h2>Component Marketplace</h2>
+            <p>Browse, compare, and find best deals on hardware</p>
+          </div>
+        </div>
+        <div class="page-tags">
+          <span class="page-tag">E-Commerce</span>
+          <span class="page-tag">Price Comparison</span>
+          <span class="page-tag">Filters</span>
+        </div>
+      </div>
+      <div class="frame-container">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot red"></div>
+            <div class="browser-dot yellow"></div>
+            <div class="browser-dot green"></div>
+          </div>
+          <div class="browser-url">
+            <i class="fas fa-lock"></i>
+            buildsmart.io/components
+          </div>
+        </div>
+        <iframe src="components.html" class="page-frame"></iframe>
+      </div>
+    </section>
+
+    <!-- Page 4: Recycle Hub -->
+    <section class="page-section" id="page-3">
+      <div class="page-label">
+        <div class="page-title">
+          <div class="page-number">4</div>
+          <div class="page-info">
+            <h2>Recycle Hub</h2>
+            <p>Donate, trade-in, and buy refurbished hardware</p>
+          </div>
+        </div>
+        <div class="page-tags">
+          <span class="page-tag">Sustainability</span>
+          <span class="page-tag">Social Impact</span>
+          <span class="page-tag">Marketplace</span>
+        </div>
+      </div>
+      <div class="frame-container">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot red"></div>
+            <div class="browser-dot yellow"></div>
+            <div class="browser-dot green"></div>
+          </div>
+          <div class="browser-url">
+            <i class="fas fa-lock"></i>
+            buildsmart.io/recycle
+          </div>
+        </div>
+        <iframe src="recycle.html" class="page-frame"></iframe>
+      </div>
+    </section>
+
+    <!-- Page 5: Resources -->
+    <section class="page-section" id="page-4">
+      <div class="page-label">
+        <div class="page-title">
+          <div class="page-number">5</div>
+          <div class="page-info">
+            <h2>Resources & Guides</h2>
+            <p>Optimization articles and educational content</p>
+          </div>
+        </div>
+        <div class="page-tags">
+          <span class="page-tag">Content</span>
+          <span class="page-tag">Education</span>
+          <span class="page-tag">SEO</span>
+        </div>
+      </div>
+      <div class="frame-container">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot red"></div>
+            <div class="browser-dot yellow"></div>
+            <div class="browser-dot green"></div>
+          </div>
+          <div class="browser-url">
+            <i class="fas fa-lock"></i>
+            buildsmart.io/resources
+          </div>
+        </div>
+        <iframe src="resources.html" class="page-frame"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="prototype-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <i class="fas fa-microchip"></i>
+        BuildSmart
+      </div>
+      <p class="footer-text">
+        Democratizing access to high-performance computing through intelligent recommendations,
+        sustainable practices, and community-driven resource sharing.
+      </p>
+      <div class="footer-stats">
+        <div class="footer-stat">
+          <div class="footer-stat-value">5</div>
+          <div class="footer-stat-label">Core Pages</div>
+        </div>
+        <div class="footer-stat">
+          <div class="footer-stat-value">100%</div>
+          <div class="footer-stat-label">Responsive</div>
+        </div>
+        <div class="footer-stat">
+          <div class="footer-stat-value">YC</div>
+          <div class="footer-stat-label">Demo Ready</div>
+        </div>
+      </div>
+      <a href="#" class="footer-cta">
+        <i class="fas fa-rocket"></i>
+        Launch Full Demo
+      </a>
+      <p class="copyright">
+        &copy; 2025 BuildSmart Prototype. Designed for investor presentation.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Page navigation
+    function scrollToPage(index) {
+      const section = document.getElementById(`page-${index}`);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Update active dot on scroll
+    const sections = document.querySelectorAll('.page-section');
+    const dots = document.querySelectorAll('.nav-dot');
+
+    window.addEventListener('scroll', () => {
+      let current = 0;
+      sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= window.innerHeight / 2) {
+          current = index;
+        }
+      });
+
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === current);
+      });
+    });
+  </script>
+</body>
+</html>
