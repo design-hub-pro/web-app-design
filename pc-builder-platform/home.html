@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuildSmart - Intelligent PC Building Platform</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="css/shared.css" rel="stylesheet">
+  <style>
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=1920') center/cover;
+      opacity: 0.1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-text {
+      color: white;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .hero-title {
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      color: #94a3b8;
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+    }
+
+    .hero-stat {
+      text-align: left;
+    }
+
+    .hero-stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .hero-stat-label {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 32px;
+      transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .hero-card-title {
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .hero-card-badge {
+      background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .config-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .config-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+
+    .config-details h4 {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .config-details p {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .config-price {
+      margin-left: auto;
+      color: #10b981;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .hero-card-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 8px;
+    }
+
+    .total-label {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .total-value {
+      color: white;
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .total-savings {
+      color: #10b981;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Features Section */
+    .features {
+      background: white;
+      padding: 100px 0;
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .feature-card {
+      text-align: center;
+      padding: 40px 32px;
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+
+    .feature-icon.purple {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+      color: #6366f1;
+    }
+
+    .feature-icon.green {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+      color: #10b981;
+    }
+
+    .feature-icon.orange {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
+      color: #f59e0b;
+    }
+
+    .feature-icon.blue {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+      color: #3b82f6;
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: var(--dark);
+    }
+
+    .feature-card p {
+      color: var(--gray);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      background: #f8fafc;
+      padding: 100px 0;
+    }
+
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-top: 60px;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 15%;
+      right: 15%;
+      height: 3px;
+      background: linear-gradient(90deg, #6366f1, #10b981, #f59e0b);
+      border-radius: 2px;
+    }
+
+    .step {
+      text-align: center;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border: 3px solid;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .step:nth-child(1) .step-number { border-color: #6366f1; color: #6366f1; }
+    .step:nth-child(2) .step-number { border-color: #10b981; color: #10b981; }
+    .step:nth-child(3) .step-number { border-color: #f59e0b; color: #f59e0b; }
+
+    .step h4 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .step p {
+      color: var(--gray);
+      font-size: 14px;
+      max-width: 200px;
+      margin: 0 auto;
+    }
+
+    /* Use Cases */
+    .use-cases {
+      padding: 100px 0;
+      background: white;
+    }
+
+    .use-case-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 280px;
+      cursor: pointer;
+    }
+
+    .use-case-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .use-case-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .use-case-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .use-case-card h3 {
+      color: white;
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .use-case-card p {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .use-case-tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* CTA Section */
+    .cta {
+      background: var(--gradient-primary);
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .cta h2 {
+      color: white;
+      font-size: 42px;
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+
+    .cta .btn {
+      background: white;
+      color: var(--primary);
+      padding: 16px 32px;
+      font-size: 16px;
+    }
+
+    .cta .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: 42px;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        display: none;
+      }
+
+      .steps {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .steps::before {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-content">
+      <a href="#" class="nav-logo">
+        <i class="fas fa-microchip"></i>
+        BuildSmart
+      </a>
+      <div class="nav-links">
+        <a href="#" class="active">Home</a>
+        <a href="#">PC Builder</a>
+        <a href="#">Components</a>
+        <a href="#">Recycle Hub</a>
+        <a href="#">Resources</a>
+      </div>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-secondary" style="padding: 10px 20px;">Sign In</a>
+        <a href="#" class="btn btn-primary" style="padding: 10px 20px;">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text animate-fade-in">
+          <div class="hero-badge">
+            <i class="fas fa-bolt"></i>
+            Powered by AI-Driven Recommendations
+          </div>
+          <h1 class="hero-title">
+            Build Smarter,<br>
+            <span>Spend Less</span>
+          </h1>
+          <p class="hero-description">
+            Purpose-driven PC building platform that recommends optimized hardware configurations based on your computing goals. Save money, reduce waste, maximize performance.
+          </p>
+          <div class="hero-actions">
+            <a href="#" class="btn btn-primary">
+              <i class="fas fa-rocket"></i>
+              Start Building
+            </a>
+            <a href="#" class="btn" style="background: rgba(255,255,255,0.1); color: white;">
+              <i class="fas fa-play-circle"></i>
+              Watch Demo
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="hero-stat-value">$2.4M+</div>
+              <div class="hero-stat-label">Saved by Users</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">15K+</div>
+              <div class="hero-stat-label">PCs Built</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">98%</div>
+              <div class="hero-stat-label">Satisfaction</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual animate-fade-in" style="animation-delay: 0.2s;">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <span class="hero-card-title">AI Training Workstation</span>
+              <span class="hero-card-badge">Optimized</span>
+            </div>
+            <div class="config-item">
+              <div class="config-icon"><i class="fas fa-microchip"></i></div>
+              <div class="config-details">
+                <h4>AMD Ryzen 9 7950X</h4>
+                <p>16 Cores / 32 Threads</p>
+              </div>
+              <span class="config-price">$549</span>
+            </div>
+            <div class="config-item">
+              <div class="config-icon" style="background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);"><i class="fas fa-memory"></i></div>
+              <div class="config-details">
+                <h4>NVIDIA RTX 4090</h4>
+                <p>24GB GDDR6X VRAM</p>
+              </div>
+              <span class="config-price">$1,599</span>
+            </div>
+            <div class="config-item">
+              <div class="config-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);"><i class="fas fa-server"></i></div>
+              <div class="config-details">
+                <h4>64GB DDR5-5600</h4>
+                <p>G.Skill Trident Z5</p>
+              </div>
+              <span class="config-price">$189</span>
+            </div>
+            <div class="hero-card-total">
+              <div>
+                <div class="total-label">Total Build Cost</div>
+                <div class="total-savings">You save $847 vs retail</div>
+              </div>
+              <div class="total-value">$3,299</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="features-header">
+        <h2 class="section-title">Why Choose BuildSmart?</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">
+          Our AI-powered platform helps you make informed decisions, save money, and build sustainably.
+        </p>
+      </div>
+      <div class="grid grid-4">
+        <div class="card feature-card">
+          <div class="feature-icon purple">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>AI Recommendations</h3>
+          <p>Smart algorithms analyze your needs and suggest optimal configurations within your budget.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon green">
+            <i class="fas fa-leaf"></i>
+          </div>
+          <h3>Sustainable Building</h3>
+          <p>Access refurbished components and donate unused hardware to reduce e-waste.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon orange">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Price Tracking</h3>
+          <p>Real-time price comparisons and alerts to help you buy at the best time.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="feature-icon blue">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Expert Guides</h3>
+          <p>Learn optimization techniques to maximize performance of your existing hardware.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <div class="container">
+      <div class="features-header">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">
+          Three simple steps to your perfect PC build
+        </p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h4>Define Your Goal</h4>
+          <p>Select your primary use case: AI training, gaming, video editing, or productivity.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h4>Get Recommendations</h4>
+          <p>Our AI analyzes your needs and suggests optimized hardware configurations.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h4>Build & Save</h4>
+          <p>Purchase components with confidence and save money with smart alternatives.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases -->
+  <section class="use-cases">
+    <div class="container">
+      <div class="features-header">
+        <h2 class="section-title">Build For Any Purpose</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">
+          Optimized configurations for every computing need
+        </p>
+      </div>
+      <div class="grid grid-4">
+        <div class="use-case-card">
+          <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600" alt="AI Training">
+          <div class="use-case-overlay">
+            <span class="use-case-tag">Popular</span>
+            <h3>AI & ML Training</h3>
+            <p>High-performance GPU workstations</p>
+          </div>
+        </div>
+        <div class="use-case-card">
+          <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600" alt="Gaming">
+          <div class="use-case-overlay">
+            <h3>Gaming</h3>
+            <p>Immersive 4K gaming rigs</p>
+          </div>
+        </div>
+        <div class="use-case-card">
+          <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600" alt="Video Editing">
+          <div class="use-case-overlay">
+            <h3>Video Production</h3>
+            <p>Creative workstations</p>
+          </div>
+        </div>
+        <div class="use-case-card">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600" alt="Development">
+          <div class="use-case-overlay">
+            <h3>Development</h3>
+            <p>Coding & productivity setups</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to Build Smarter?</h2>
+      <p>Join thousands of users who've saved money and built better PCs.</p>
+      <a href="#" class="btn">
+        <i class="fas fa-rocket"></i>
+        Start Your Build Now
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo" style="color: white;">
+            <i class="fas fa-microchip"></i>
+            BuildSmart
+          </a>
+          <p>Democratizing access to high-performance computing through intelligent recommendations and sustainable practices.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Product</h4>
+          <ul class="footer-links">
+            <li><a href="#">PC Builder</a></li>
+            <li><a href="#">Components</a></li>
+            <li><a href="#">Price Tracker</a></li>
+            <li><a href="#">Comparisons</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="#">Build Guides</a></li>
+            <li><a href="#">Optimization Tips</a></li>
+            <li><a href="#">Community</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title">Company</h4>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 BuildSmart. All rights reserved.</span>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

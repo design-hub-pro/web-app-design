@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources - BuildSmart</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="css/shared.css" rel="stylesheet">
+  <style>
+    .resources-page {
+      padding-top: 100px;
+      min-height: 100vh;
+      background: #f8fafc;
+    }
+
+    .page-header {
+      text-align: center;
+      padding: 40px 0 60px;
+    }
+
+    .page-header h1 {
+      font-size: 42px;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .page-header p {
+      color: var(--gray);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .category-tab {
+      padding: 12px 24px;
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray);
+    }
+
+    .category-tab:hover,
+    .category-tab.active {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .category-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Featured Article */
+    .featured-article {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 0;
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+      margin-bottom: 48px;
+    }
+
+    .featured-image {
+      height: 400px;
+      overflow: hidden;
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .featured-article:hover .featured-image img {
+      transform: scale(1.05);
+    }
+
+    .featured-content {
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .featured-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gradient-primary);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      width: fit-content;
+      margin-bottom: 20px;
+    }
+
+    .featured-content h2 {
+      font-size: 28px;
+      color: var(--dark);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .featured-content p {
+      color: var(--gray);
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--gray);
+      font-size: 13px;
+    }
+
+    .article-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .read-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      margin-top: 24px;
+      transition: gap 0.3s ease;
+    }
+
+    .read-btn:hover {
+      gap: 12px;
+    }
+
+    /* Articles Grid */
+    .articles-section h3 {
+      font-size: 24px;
+      color: var(--dark);
+      margin-bottom: 24px;
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .article-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .article-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .article-image {
+      height: 180px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .article-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .article-card:hover .article-image img {
+      transform: scale(1.1);
+    }
+
+    .article-category {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .cat-software { background: rgba(99, 102, 241, 0.9); color: white; }
+    .cat-hardware { background: rgba(16, 185, 129, 0.9); color: white; }
+    .cat-workflow { background: rgba(245, 158, 11, 0.9); color: white; }
+    .cat-guide { background: rgba(236, 72, 153, 0.9); color: white; }
+
+    .article-content {
+      padding: 24px;
+    }
+
+    .article-content h4 {
+      font-size: 17px;
+      color: var(--dark);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .article-content p {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .article-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .author-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .read-time {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* Quick Tips Section */
+    .tips-section {
+      padding: 60px 0;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-radius: 24px;
+      margin-bottom: 48px;
+    }
+
+    .tips-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .tips-header h3 {
+      font-size: 28px;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .tips-header p {
+      color: #94a3b8;
+      font-size: 16px;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding: 0 40px;
+    }
+
+    .tip-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .tip-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .tip-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    .tip-card:nth-child(1) .tip-icon { background: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+    .tip-card:nth-child(2) .tip-icon { background: rgba(16, 185, 129, 0.3); color: #6ee7b7; }
+    .tip-card:nth-child(3) .tip-icon { background: rgba(245, 158, 11, 0.3); color: #fcd34d; }
+    .tip-card:nth-child(4) .tip-icon { background: rgba(236, 72, 153, 0.3); color: #f9a8d4; }
+
+    .tip-card h5 {
+      color: white;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .tip-card p {
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: white;
+      border-radius: 24px;
+      padding: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .newsletter-text h3 {
+      font-size: 24px;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .newsletter-text p {
+      color: var(--gray);
+      font-size: 15px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+    }
+
+    .newsletter-form input {
+      padding: 14px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 15px;
+      width: 300px;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter-form input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .newsletter-form button {
+      padding: 14px 28px;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    @media (max-width: 1024px) {
+      .featured-article {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-image {
+        height: 300px;
+      }
+
+      .articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tips-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .newsletter {
+        flex-direction: column;
+        text-align: center;
+        gap: 24px;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .newsletter-form input {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tips-grid {
+        grid-template-columns: 1fr;
+        padding: 0 24px;
+      }
+
+      .category-tabs {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-content">
+      <a href="#" class="nav-logo">
+        <i class="fas fa-microchip"></i>
+        BuildSmart
+      </a>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">PC Builder</a>
+        <a href="#">Components</a>
+        <a href="#">Recycle Hub</a>
+        <a href="#" class="active">Resources</a>
+      </div>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-secondary" style="padding: 10px 20px;">Sign In</a>
+        <a href="#" class="btn btn-primary" style="padding: 10px 20px;">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="resources-page">
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1>Learn & Optimize</h1>
+        <p>Expert guides and optimization techniques to maximize performance from your hardware</p>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="category-tabs">
+        <button class="category-tab active"><i class="fas fa-th-large"></i> All Topics</button>
+        <button class="category-tab"><i class="fas fa-code"></i> Software</button>
+        <button class="category-tab"><i class="fas fa-microchip"></i> Hardware</button>
+        <button class="category-tab"><i class="fas fa-stream"></i> Workflow</button>
+        <button class="category-tab"><i class="fas fa-book"></i> Build Guides</button>
+      </div>
+
+      <!-- Featured Article -->
+      <article class="featured-article">
+        <div class="featured-image">
+          <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?w=800" alt="AI Optimization">
+        </div>
+        <div class="featured-content">
+          <span class="featured-tag"><i class="fas fa-star"></i> Featured</span>
+          <h2>Maximize Your GPU: Complete AI Training Optimization Guide</h2>
+          <p>Learn how to get the most out of your hardware for machine learning workloads. From CUDA optimizations to memory management, we cover everything you need to train models faster.</p>
+          <div class="article-meta">
+            <span><i class="far fa-clock"></i> 15 min read</span>
+            <span><i class="far fa-calendar"></i> Jan 8, 2025</span>
+            <span><i class="far fa-eye"></i> 12.4K views</span>
+          </div>
+          <a href="#" class="read-btn">Read Article <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </article>
+
+      <!-- Articles Grid -->
+      <div class="articles-section">
+        <h3>Latest Articles</h3>
+        <div class="articles-grid">
+          <article class="article-card">
+            <div class="article-image">
+              <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600" alt="BIOS Settings">
+              <span class="article-category cat-hardware">Hardware</span>
+            </div>
+            <div class="article-content">
+              <h4>10 BIOS Settings That Actually Improve Performance</h4>
+              <p>Hidden BIOS tweaks that can boost your system speed by up to 15% without spending a dime.</p>
+              <div class="article-footer">
+                <div class="author">
+                  <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100" alt="Author" class="author-avatar">
+                  <span class="author-name">Alex Chen</span>
+                </div>
+                <span class="read-time">8 min</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-image">
+              <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=600" alt="Python Optimization">
+              <span class="article-category cat-software">Software</span>
+            </div>
+            <div class="article-content">
+              <h4>Speed Up Python: NumPy Vectorization Deep Dive</h4>
+              <p>Transform slow loops into blazing fast operations with proper vectorization techniques.</p>
+              <div class="article-footer">
+                <div class="author">
+                  <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="Author" class="author-avatar">
+                  <span class="author-name">Sarah Miller</span>
+                </div>
+                <span class="read-time">12 min</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-image">
+              <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600" alt="Cooling">
+              <span class="article-category cat-hardware">Hardware</span>
+            </div>
+            <div class="article-content">
+              <h4>The Ultimate Cooling Guide for High-Performance PCs</h4>
+              <p>Keep your components running cool for maximum performance and longevity.</p>
+              <div class="article-footer">
+                <div class="author">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Author" class="author-avatar">
+                  <span class="author-name">Mike Johnson</span>
+                </div>
+                <span class="read-time">10 min</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-image">
+              <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600" alt="Docker">
+              <span class="article-category cat-workflow">Workflow</span>
+            </div>
+            <div class="article-content">
+              <h4>Docker for ML: Reproducible Training Environments</h4>
+              <p>Set up consistent development environments that work the same everywhere.</p>
+              <div class="article-footer">
+                <div class="author">
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" alt="Author" class="author-avatar">
+                  <span class="author-name">David Park</span>
+                </div>
+                <span class="read-time">7 min</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-image">
+              <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600" alt="Build Guide">
+              <span class="article-category cat-guide">Build Guide</span>
+            </div>
+            <div class="article-content">
+              <h4>$2000 AI Workstation: Complete Build Guide</h4>
+              <p>Step-by-step guide to building a capable machine learning workstation on a budget.</p>
+              <div class="article-footer">
+                <div class="author">
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="Author" class="author-avatar">
+                  <span class="author-name">Emma Wilson</span>
+                </div>
+                <span class="read-time">20 min</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-image">
+              <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600" alt="CUDA">
+              <span class="article-category cat-software">Software</span>
+            </div>
+            <div class="article-content">
+              <h4>CUDA Memory Management Best Practices</h4>
+              <p>Avoid out-of-memory errors and optimize GPU memory usage for larger models.</p>
+              <div class="article-footer">
+                <div class="author">
+                  <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100" alt="Author" class="author-avatar">
+                  <span class="author-name">James Liu</span>
+                </div>
+                <span class="read-time">14 min</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Quick Tips -->
+      <section class="tips-section">
+        <div class="tips-header">
+          <h3>Quick Optimization Tips</h3>
+          <p>Simple tweaks that make a big difference</p>
+        </div>
+        <div class="tips-grid">
+          <div class="tip-card">
+            <div class="tip-icon"><i class="fas fa-tachometer-alt"></i></div>
+            <h5>Enable XMP/DOCP</h5>
+            <p>Your RAM might be running slower than rated. Enable XMP in BIOS for instant speed boost.</p>
+          </div>
+          <div class="tip-card">
+            <div class="tip-icon"><i class="fas fa-hard-drive"></i></div>
+            <h5>SSD Optimization</h5>
+            <p>Disable defragmentation and enable TRIM for SSDs to maintain peak performance.</p>
+          </div>
+          <div class="tip-card">
+            <div class="tip-icon"><i class="fas fa-power-off"></i></div>
+            <h5>Power Plan</h5>
+            <p>Switch to High Performance power plan for consistent performance during heavy workloads.</p>
+          </div>
+          <div class="tip-card">
+            <div class="tip-icon"><i class="fas fa-temperature-low"></i></div>
+            <h5>Thermal Paste</h5>
+            <p>Replace thermal paste every 2-3 years. Fresh paste can drop temps by 5-10°C.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Newsletter -->
+      <div class="newsletter">
+        <div class="newsletter-text">
+          <h3>Stay Updated</h3>
+          <p>Get weekly optimization tips and build guides delivered to your inbox.</p>
+        </div>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email">
+          <button type="submit"><i class="fas fa-paper-plane"></i> Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top: 60px;">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <span>&copy; 2025 BuildSmart. All rights reserved.</span>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
