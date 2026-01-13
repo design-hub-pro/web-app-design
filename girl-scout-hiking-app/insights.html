@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrailSense - AI Insights</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .insights-header {
+      background: linear-gradient(135deg, #1A237E 0%, #283593 100%);
+      color: white;
+      padding: 20px;
+      padding-top: 10px;
+    }
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .insights-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .insights-subtitle {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+    .pressure-map {
+      margin: 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      height: 200px;
+    }
+    .pressure-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .heatmap-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at 30% 40%, rgba(255,87,34,0.4) 0%, transparent 40%),
+                  radial-gradient(ellipse at 70% 60%, rgba(255,152,0,0.3) 0%, transparent 35%),
+                  radial-gradient(ellipse at 50% 80%, rgba(255,193,7,0.25) 0%, transparent 30%);
+    }
+    .pressure-legend {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+    .legend-title {
+      font-size: 10px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .legend-gradient {
+      width: 100px;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #4CAF50, #FFEB3B, #FF9800, #F44336);
+    }
+    .legend-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      color: rgba(255,255,255,0.8);
+      margin-top: 4px;
+    }
+    .pressure-zones {
+      padding: 0 16px;
+      margin-bottom: 16px;
+    }
+    .zone-card {
+      background: white;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      gap: 14px;
+    }
+    .zone-indicator {
+      width: 6px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .zone-high { background: linear-gradient(180deg, #F44336, #E53935); }
+    .zone-medium { background: linear-gradient(180deg, #FF9800, #F57C00); }
+    .zone-low { background: linear-gradient(180deg, #FFC107, #FFB300); }
+    .zone-content {
+      flex: 1;
+    }
+    .zone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .zone-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .zone-level {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .level-high {
+      background: #FFEBEE;
+      color: var(--alert-red);
+    }
+    .level-medium {
+      background: #FFF3E0;
+      color: #E65100;
+    }
+    .zone-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .zone-metrics {
+      display: flex;
+      gap: 16px;
+    }
+    .zone-metric {
+      font-size: 11px;
+    }
+    .zone-metric-value {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .zone-metric-label {
+      color: var(--text-secondary);
+    }
+    .prediction-card {
+      background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+      margin: 0 16px 16px;
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .prediction-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .prediction-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--primary-green);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+    .prediction-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--forest-dark);
+    }
+    .prediction-text {
+      font-size: 13px;
+      color: #2E7D32;
+      line-height: 1.5;
+    }
+    .data-summary {
+      background: white;
+      margin: 0 16px;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--card-shadow);
+    }
+    .summary-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .summary-item {
+      text-align: center;
+    }
+    .summary-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-green);
+    }
+    .summary-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <!-- Status Bar -->
+  <div class="status-bar" style="background: linear-gradient(135deg, #1A237E 0%, #283593 100%);">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <i class="fas fa-signal"></i>
+      <i class="fas fa-wifi"></i>
+      <i class="fas fa-battery-full"></i>
+    </div>
+  </div>
+
+  <!-- Insights Header -->
+  <div class="insights-header">
+    <div class="ai-badge">
+      <i class="fas fa-microchip"></i>
+      AI-Powered Analysis
+    </div>
+    <h1 class="insights-title">Environmental Insights</h1>
+    <p class="insights-subtitle">Detecting early ecosystem degradation signs</p>
+  </div>
+
+  <!-- App Container -->
+  <div class="app-container">
+    <!-- Pressure Map -->
+    <div class="pressure-map">
+      <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&h=300&fit=crop" alt="Forest Trail">
+      <div class="heatmap-overlay"></div>
+      <div class="pressure-legend">
+        <div class="legend-title">Pressure Level</div>
+        <div class="legend-gradient"></div>
+        <div class="legend-labels">
+          <span>Low</span>
+          <span>High</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pressure Zones -->
+    <div class="section-title">Identified Pressure Zones</div>
+    <div class="pressure-zones">
+      <div class="zone-card">
+        <div class="zone-indicator zone-high"></div>
+        <div class="zone-content">
+          <div class="zone-header">
+            <span class="zone-title">Pine Ridge Switchback</span>
+            <span class="zone-level level-high">High Priority</span>
+          </div>
+          <p class="zone-desc">87% of hikers deviate from official trail. Soil compaction detected in surrounding vegetation area. Early erosion indicators present.</p>
+          <div class="zone-metrics">
+            <div class="zone-metric">
+              <span class="zone-metric-value">23</span>
+              <span class="zone-metric-label"> deviations/week</span>
+            </div>
+            <div class="zone-metric">
+              <span class="zone-metric-value">-31%</span>
+              <span class="zone-metric-label"> avg cadence</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="zone-card">
+        <div class="zone-indicator zone-medium"></div>
+        <div class="zone-content">
+          <div class="zone-header">
+            <span class="zone-title">Blue Creek Crossing</span>
+            <span class="zone-level level-medium">Monitor</span>
+          </div>
+          <p class="zone-desc">Systematic left-side deviation observed. Water flow changes may be affecting trail condition. Recommend geological survey.</p>
+          <div class="zone-metrics">
+            <div class="zone-metric">
+              <span class="zone-metric-value">15</span>
+              <span class="zone-metric-label"> deviations/week</span>
+            </div>
+            <div class="zone-metric">
+              <span class="zone-metric-value">-18%</span>
+              <span class="zone-metric-label"> avg cadence</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Prediction -->
+    <div class="prediction-card">
+      <div class="prediction-header">
+        <div class="prediction-icon">
+          <i class="fas fa-seedling"></i>
+        </div>
+        <span class="prediction-title">AI Prediction</span>
+      </div>
+      <p class="prediction-text">Based on behavioral patterns, Pine Ridge area shows early signs of ecosystem stress. Recommend trail maintenance within 30 days to prevent permanent vegetation damage.</p>
+    </div>
+
+    <!-- Data Summary -->
+    <div class="data-summary">
+      <div class="summary-title">Aggregate Data</div>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-value">847</div>
+          <div class="summary-label">Data Points</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-value">34</div>
+          <div class="summary-label">Hike Sessions</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-value">92%</div>
+          <div class="summary-label">Confidence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <a href="#" class="tab-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-location-arrow"></i>
+      <span>Track</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Analysis</span>
+    </a>
+    <a href="#" class="tab-item active">
+      <i class="fas fa-brain"></i>
+      <span>Insights</span>
+    </a>
+    <a href="#" class="tab-item">
+      <i class="fas fa-clock-rotate-left"></i>
+      <span>History</span>
+    </a>
+  </div>
+</body>
+</html>

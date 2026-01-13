@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrailSense - Girl Scout Environmental Monitoring App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #FFFFFF;
+      color: #1A1A1A;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2D5A27;
+      margin-bottom: 20px;
+    }
+
+    .logo-badge i {
+      font-size: 16px;
+    }
+
+    .header h1 {
+      font-size: 42px;
+      font-weight: 800;
+      color: #1A1A1A;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .header h1 span {
+      background: linear-gradient(135deg, #2D5A27 0%, #4CAF50 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      font-size: 18px;
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Feature Tags */
+    .feature-tags {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .feature-tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: #F5F5F5;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .feature-tag i {
+      color: #4CAF50;
+    }
+
+    /* Screenshots Section */
+    .screenshots-section {
+      padding: 40px 20px 80px;
+      overflow-x: auto;
+    }
+
+    .screenshots-container {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* iPhone Frame */
+    .phone-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .phone-frame {
+      width: 280px;
+      height: 580px;
+      background: #1A1A1A;
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow:
+        0 50px 100px -20px rgba(0,0,0,0.25),
+        0 30px 60px -30px rgba(0,0,0,0.3),
+        inset 0 0 0 2px #333;
+      position: relative;
+    }
+
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 28px;
+      background: #1A1A1A;
+      border-radius: 20px;
+      z-index: 10;
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 34px;
+      overflow: hidden;
+      background: #F5F7F5;
+    }
+
+    .phone-screen iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform-origin: top left;
+    }
+
+    .screen-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    .screen-desc {
+      font-size: 12px;
+      color: #888;
+      max-width: 200px;
+      text-align: center;
+    }
+
+    /* Open Button */
+    .open-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: #2D5A27;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .open-btn:hover {
+      background: #1B3A17;
+      transform: translateY(-1px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 32px;
+      }
+
+      .header p {
+        font-size: 16px;
+      }
+
+      .phone-frame {
+        width: 240px;
+        height: 500px;
+        border-radius: 36px;
+      }
+
+      .phone-screen {
+        border-radius: 28px;
+      }
+
+      .screenshots-container {
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-badge">
+      <i class="fas fa-leaf"></i>
+      Environmental AI Platform
+    </div>
+    <h1><span>TrailSense</span></h1>
+    <p>AI-powered environmental monitoring that detects early ecosystem degradation through anonymous hiker behavior patterns — before visible damage occurs.</p>
+
+    <div class="feature-tags">
+      <div class="feature-tag">
+        <i class="fas fa-route"></i>
+        Path Deviation Analysis
+      </div>
+      <div class="feature-tag">
+        <i class="fas fa-heartbeat"></i>
+        Cadence Monitoring
+      </div>
+      <div class="feature-tag">
+        <i class="fas fa-brain"></i>
+        AI Prediction
+      </div>
+      <div class="feature-tag">
+        <i class="fas fa-shield-alt"></i>
+        Anonymous Data
+      </div>
+    </div>
+  </header>
+
+  <!-- Screenshots -->
+  <section class="screenshots-section">
+    <div class="screenshots-container">
+      <!-- Home Screen -->
+      <div class="phone-wrapper">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <iframe src="home.html" title="Home"></iframe>
+          </div>
+        </div>
+        <div class="screen-label">Dashboard</div>
+        <div class="screen-desc">Overview of trail data and environmental alerts</div>
+        <a href="home.html" target="_blank" class="open-btn">
+          <i class="fas fa-expand"></i>
+          Open Full Page
+        </a>
+      </div>
+
+      <!-- Tracking Screen -->
+      <div class="phone-wrapper">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <iframe src="tracking.html" title="Tracking"></iframe>
+          </div>
+        </div>
+        <div class="screen-label">Live Tracking</div>
+        <div class="screen-desc">Real-time GPS and cadence monitoring</div>
+        <a href="tracking.html" target="_blank" class="open-btn">
+          <i class="fas fa-expand"></i>
+          Open Full Page
+        </a>
+      </div>
+
+      <!-- Analysis Screen -->
+      <div class="phone-wrapper">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <iframe src="analysis.html" title="Analysis"></iframe>
+          </div>
+        </div>
+        <div class="screen-label">Trail Analysis</div>
+        <div class="screen-desc">Compare actual vs official trail paths</div>
+        <a href="analysis.html" target="_blank" class="open-btn">
+          <i class="fas fa-expand"></i>
+          Open Full Page
+        </a>
+      </div>
+
+      <!-- Insights Screen -->
+      <div class="phone-wrapper">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <iframe src="insights.html" title="Insights"></iframe>
+          </div>
+        </div>
+        <div class="screen-label">AI Insights</div>
+        <div class="screen-desc">Environmental pressure zone detection</div>
+        <a href="insights.html" target="_blank" class="open-btn">
+          <i class="fas fa-expand"></i>
+          Open Full Page
+        </a>
+      </div>
+
+      <!-- History Screen -->
+      <div class="phone-wrapper">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <iframe src="history.html" title="History"></iframe>
+          </div>
+        </div>
+        <div class="screen-label">History</div>
+        <div class="screen-desc">Past hikes and aggregated data</div>
+        <a href="history.html" target="_blank" class="open-btn">
+          <i class="fas fa-expand"></i>
+          Open Full Page
+        </a>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
