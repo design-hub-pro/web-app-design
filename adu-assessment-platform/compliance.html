@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Details - ADU Advisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                    </button>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
+                            <i class="fas fa-home text-white text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-lg font-bold text-gray-900">Compliance Details</span>
+                            <p class="text-gray-500 text-sm">123 Oak Street, San Jose, CA</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button class="btn-secondary py-2 px-4">
+                        <i class="fas fa-print mr-2"></i>
+                        Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-8">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Left Column - Navigation -->
+            <div class="lg:col-span-1">
+                <div class="card-static p-4 sticky top-24">
+                    <h3 class="font-semibold text-gray-900 mb-4">Regulation Categories</h3>
+                    <nav class="space-y-1">
+                        <a href="#zoning" class="flex items-center gap-3 p-3 bg-blue-50 text-blue-600 rounded-lg">
+                            <i class="fas fa-map w-5"></i>
+                            <span class="font-medium">Zoning Requirements</span>
+                            <span class="ml-auto badge badge-success text-xs">Pass</span>
+                        </a>
+                        <a href="#setbacks" class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg text-gray-700">
+                            <i class="fas fa-arrows-alt-h w-5"></i>
+                            <span class="font-medium">Setback Rules</span>
+                            <span class="ml-auto badge badge-success text-xs">Pass</span>
+                        </a>
+                        <a href="#coverage" class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg text-gray-700">
+                            <i class="fas fa-percentage w-5"></i>
+                            <span class="font-medium">Lot Coverage</span>
+                            <span class="ml-auto badge badge-warning text-xs">Review</span>
+                        </a>
+                        <a href="#height" class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg text-gray-700">
+                            <i class="fas fa-ruler-vertical w-5"></i>
+                            <span class="font-medium">Height Limits</span>
+                            <span class="ml-auto badge badge-success text-xs">Pass</span>
+                        </a>
+                        <a href="#adu" class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg text-gray-700">
+                            <i class="fas fa-home w-5"></i>
+                            <span class="font-medium">ADU Regulations</span>
+                            <span class="ml-auto badge badge-success text-xs">Pass</span>
+                        </a>
+                    </nav>
+
+                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fas fa-file-alt text-gray-400"></i>
+                            <span class="text-sm font-medium text-gray-700">Source Documents</span>
+                        </div>
+                        <ul class="text-sm text-gray-500 space-y-1">
+                            <li>• San Jose Municipal Code Ch. 20.30</li>
+                            <li>• California AB 2221 (2022)</li>
+                            <li>• Local ADU Ordinance 30523</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Details -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Zoning Requirements -->
+                <section id="zoning" class="card-static p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <i class="fas fa-map text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-gray-900">Zoning Requirements</h2>
+                                <p class="text-gray-500 text-sm">Current zone: R-1 (Single Family Residential)</p>
+                            </div>
+                        </div>
+                        <span class="badge badge-success">
+                            <i class="fas fa-check-circle mr-1"></i> Compliant
+                        </span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="font-medium text-gray-900">ADU Allowed</p>
+                                <p class="text-gray-500 text-sm">Detached ADUs permitted by right in R-1 zones</p>
+                            </div>
+                            <i class="fas fa-check-circle text-emerald-500 text-xl"></i>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="font-medium text-gray-900">JADU Allowed</p>
+                                <p class="text-gray-500 text-sm">Junior ADU also permitted (up to 500 sq ft)</p>
+                            </div>
+                            <i class="fas fa-check-circle text-emerald-500 text-xl"></i>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <p class="font-medium text-gray-900">Minimum Lot Size</p>
+                                <p class="text-gray-500 text-sm">Required: 5,000 sq ft • Your lot: 6,500 sq ft</p>
+                            </div>
+                            <i class="fas fa-check-circle text-emerald-500 text-xl"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Setback Rules -->
+                <section id="setbacks" class="card-static p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <i class="fas fa-arrows-alt-h text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-gray-900">Setback Requirements</h2>
+                                <p class="text-gray-500 text-sm">Minimum distances from property lines</p>
+                            </div>
+                        </div>
+                        <span class="badge badge-success">
+                            <i class="fas fa-check-circle mr-1"></i> Compliant
+                        </span>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-4 border border-gray-200 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-gray-600">Front Setback</span>
+                                <span class="badge badge-success text-xs">OK</span>
+                            </div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-bold text-gray-900">20 ft</span>
+                                <span class="text-gray-500">required</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">ADU in rear yard - N/A</p>
+                        </div>
+
+                        <div class="p-4 border border-gray-200 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-gray-600">Rear Setback</span>
+                                <span class="badge badge-success text-xs">OK</span>
+                            </div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-bold text-gray-900">4 ft</span>
+                                <span class="text-gray-500">required</span>
+                            </div>
+                            <p class="text-sm text-emerald-600 mt-1">Available: 12 ft clearance</p>
+                        </div>
+
+                        <div class="p-4 border border-gray-200 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-gray-600">Side Setback (Left)</span>
+                                <span class="badge badge-success text-xs">OK</span>
+                            </div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-bold text-gray-900">4 ft</span>
+                                <span class="text-gray-500">required</span>
+                            </div>
+                            <p class="text-sm text-emerald-600 mt-1">Available: 8 ft clearance</p>
+                        </div>
+
+                        <div class="p-4 border border-gray-200 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-gray-600">Side Setback (Right)</span>
+                                <span class="badge badge-success text-xs">OK</span>
+                            </div>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-bold text-gray-900">4 ft</span>
+                                <span class="text-gray-500">required</span>
+                            </div>
+                            <p class="text-sm text-emerald-600 mt-1">Available: 6 ft clearance</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lot Coverage -->
+                <section id="coverage" class="card-static p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center">
+                                <i class="fas fa-percentage text-amber-600"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-gray-900">Lot Coverage Analysis</h2>
+                                <p class="text-gray-500 text-sm">Maximum allowed: 45% of lot area</p>
+                            </div>
+                        </div>
+                        <span class="badge badge-warning">
+                            <i class="fas fa-exclamation-triangle mr-1"></i> Near Limit
+                        </span>
+                    </div>
+
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-600">Current + Proposed Coverage</span>
+                            <span class="font-semibold text-gray-900">42% of 45% max</span>
+                        </div>
+                        <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full rounded-full relative" style="width: 93%; background: linear-gradient(90deg, #22c55e 0%, #22c55e 85%, #f59e0b 85%, #f59e0b 100%);">
+                                <div class="absolute right-0 top-0 bottom-0 w-px bg-red-500" style="right: 7%;"></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>0%</span>
+                            <span class="text-red-500 font-medium">45% limit</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-exclamation-triangle text-amber-500 mt-0.5"></i>
+                            <div>
+                                <p class="font-medium text-amber-800">Approaching Coverage Limit</p>
+                                <p class="text-amber-700 text-sm mt-1">
+                                    Your proposed 600 sq ft ADU will bring total lot coverage to 42%. Consider reducing footprint
+                                    or going with a two-story design to stay comfortably under the 45% limit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 mt-4">
+                        <div class="text-center p-3 bg-gray-50 rounded-lg">
+                            <p class="text-2xl font-bold text-gray-900">2,470</p>
+                            <p class="text-xs text-gray-500">Current (sq ft)</p>
+                        </div>
+                        <div class="text-center p-3 bg-blue-50 rounded-lg">
+                            <p class="text-2xl font-bold text-blue-600">+600</p>
+                            <p class="text-xs text-blue-600">ADU (sq ft)</p>
+                        </div>
+                        <div class="text-center p-3 bg-gray-50 rounded-lg">
+                            <p class="text-2xl font-bold text-gray-900">2,925</p>
+                            <p class="text-xs text-gray-500">Max Allowed</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Height Limits -->
+                <section id="height" class="card-static p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <i class="fas fa-ruler-vertical text-emerald-600"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-gray-900">Height Restrictions</h2>
+                                <p class="text-gray-500 text-sm">Maximum building height for ADU</p>
+                            </div>
+                        </div>
+                        <span class="badge badge-success">
+                            <i class="fas fa-check-circle mr-1"></i> Compliant
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-8">
+                        <div class="flex-1">
+                            <div class="flex items-end gap-4 h-32">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-16 bg-blue-500 rounded-t-lg" style="height: 87.5%;"></div>
+                                    <p class="text-xs text-gray-500 mt-2">14 ft</p>
+                                    <p class="text-xs text-gray-500">Proposed</p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-16 bg-gray-300 rounded-t-lg border-2 border-dashed border-gray-400" style="height: 100%;"></div>
+                                    <p class="text-xs text-gray-500 mt-2">16 ft</p>
+                                    <p class="text-xs text-gray-500">Max</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-gray-700 mb-3">Your proposed 14 ft height is within the 16 ft maximum for detached ADUs.</p>
+                            <div class="p-3 bg-emerald-50 rounded-lg">
+                                <p class="text-sm text-emerald-700">
+                                    <i class="fas fa-lightbulb mr-1"></i>
+                                    Staying 2 ft under max height improves neighbor relations and approval odds.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
